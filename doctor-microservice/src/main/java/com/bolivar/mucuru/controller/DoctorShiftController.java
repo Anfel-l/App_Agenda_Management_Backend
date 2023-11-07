@@ -30,7 +30,7 @@ public class DoctorShiftController {
 		this.doctorShiftService = doctorShiftService;
 	}
 	
-	@GetMapping("/api/doctor_shift/id/{id}")
+	@GetMapping("/api/doctor-shift/id/{id}")
 	public ResponseEntity<DoctorShift> getDoctorShiftById(@PathVariable("id") Long doctorShiftId){
 		DoctorShift doctorShift = doctorShiftService.getDoctorShiftById(doctorShiftId);
 		
@@ -41,7 +41,7 @@ public class DoctorShiftController {
 		}
 	}
 	
-	@GetMapping("/api/doctor_shift/")
+	@GetMapping("/api/doctor-shift/")
 	public ResponseEntity<List<DoctorShift>> getAllDoctorShifts(){
 		try {
 			List<DoctorShift> doctorShift = doctorShiftService.getAllDoctorShifts();
@@ -51,7 +51,7 @@ public class DoctorShiftController {
 		}
 	}
 	
-	@PostMapping("/api/doctor_shift/insert/")
+	@PostMapping("/api/doctor-shift/insert/")
 	public ResponseEntity<String> insertDoctorShift(@RequestBody DoctorShift doctorShift){
 		try {
 			doctorShiftService.insertDoctorShift(doctorShift);
@@ -62,7 +62,7 @@ public class DoctorShiftController {
 		}
 	}
 	
-	@PutMapping("/api/doctor_shift/update/")
+	@PutMapping("/api/doctor-shift/update/")
 	public ResponseEntity<String> updateDoctorShift(@RequestBody DoctorShift doctorShift){
 		try {
 			doctorShiftService.updateDoctorShift(doctorShift);

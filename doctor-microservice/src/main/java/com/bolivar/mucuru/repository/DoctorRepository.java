@@ -80,7 +80,7 @@ public class DoctorRepository {
 				in.addValue("Ip_first_name", doctor.getFirstName());
 				in.addValue("Ip_second_name", doctor.getSecondName());
 				in.addValue("Ip_last_name", doctor.getLastName());
-				in.addValue("Ip_medical_field_id", doctor.getMedicalFielId());
+				in.addValue("Ip_medical_field_id", doctor.getMedicalFieldId());
 				in.addValue("Ip_medical_center_id", doctor.getMedicalCenterId());
 		jdbcCall.execute(in);
 	}
@@ -99,10 +99,11 @@ public class DoctorRepository {
 						);
 		
 		MapSqlParameterSource in = new MapSqlParameterSource();
+				in.addValue("Ip_doctor_id", doctor.getDoctorId());
 				in.addValue("Ip_first_name", doctor.getFirstName());
 				in.addValue("Ip_second_name", doctor.getSecondName());
 				in.addValue("Ip_last_name", doctor.getLastName());
-				in.addValue("Ip_medical_field_id", doctor.getMedicalFielId());
+				in.addValue("Ip_medical_field_id", doctor.getMedicalFieldId());
 				in.addValue("Ip_medical_center_id", doctor.getMedicalCenterId());
 		jdbcCall.execute(in);
 		

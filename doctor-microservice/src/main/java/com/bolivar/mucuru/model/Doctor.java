@@ -14,7 +14,7 @@ public class Doctor {
 	private String firstName;
 	private String secondName;
 	private String lastName;
-	private Integer medicalFielId;
+	private Integer medicalFieldId;
 	private Integer medicalCenterId;
 	
 }

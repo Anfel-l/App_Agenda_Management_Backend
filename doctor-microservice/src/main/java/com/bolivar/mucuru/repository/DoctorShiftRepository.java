@@ -16,11 +16,13 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.stereotype.Repository;
 
 import com.bolivar.mucuru.model.DoctorShift;
 
 import oracle.jdbc.OracleTypes;
 
+@Repository
 public class DoctorShiftRepository {
 	
 	private JdbcTemplate jdbcTemplate;
@@ -71,9 +73,9 @@ public class DoctorShiftRepository {
 				.declareParameters(
 						
 						new SqlParameter("Ip_doctor_id", Types.INTEGER),
-						new SqlParameter("Ip_shift_date", Types.DATE),
-						new SqlParameter("Ip_start_time", Types.TIMESTAMP),
-						new SqlParameter("Ip_end_time", Types.TIMESTAMP)
+						new SqlParameter("Ip_shift_date", OracleTypes.DATE),
+						new SqlParameter("Ip_start_time", OracleTypes.TIMESTAMP),
+						new SqlParameter("Ip_end_time", OracleTypes.TIMESTAMP)
 						);
 		
 		MapSqlParameterSource in = new MapSqlParameterSource();
@@ -81,6 +83,7 @@ public class DoctorShiftRepository {
 			in.addValue("Ip_shift_date", doctorShift.getShiftDate());
 			in.addValue("Ip_start_time", doctorShift.getStartTime());
 			in.addValue("Ip_end_time", doctorShift.getEndTime());
+		jdbcCall.execute(in);
 	}
 	
 	public void updateDoctorShift(DoctorShift doctorShift) {
@@ -89,17 +92,19 @@ public class DoctorShiftRepository {
 				.withProcedureName("Proc_Update_DOCTOR_SHIFT")
 				.declareParameters(
 						new SqlParameter("Ip_doctor_shift_id", Types.INTEGER),
-						new SqlParameter("Ip_doctor_id", Types.INTEGER),
-						new SqlParameter("Ip_shift_date", Types.DATE),
-						new SqlParameter("Ip_start_time", Types.TIMESTAMP),
-						new SqlParameter("Ip_end_time", Types.TIMESTAMP)
+						new SqlParameter("Ip_doctor_id", OracleTypes.INTEGER),
+						new SqlParameter("Ip_shift_date", OracleTypes.DATE),
+						new SqlParameter("Ip_start_time", OracleTypes.TIMESTAMP),
+						new SqlParameter("Ip_end_time", OracleTypes.TIMESTAMP)
 						);
 		
 		MapSqlParameterSource in = new MapSqlParameterSource();
+			in.addValue("Ip_doctor_shift_id", doctorShift.getDoctorShiftId());
 			in.addValue("Ip_doctor_id", doctorShift.getDoctorId());
 			in.addValue("Ip_shift_date", doctorShift.getShiftDate());
 			in.addValue("Ip_start_time", doctorShift.getStartTime());
 			in.addValue("Ip_end_time", doctorShift.getEndTime());
+			jdbcCall.execute(in);
 	}
 	
 	public static final class DoctorShiftRowMapper implements RowMapper<DoctorShift>{
