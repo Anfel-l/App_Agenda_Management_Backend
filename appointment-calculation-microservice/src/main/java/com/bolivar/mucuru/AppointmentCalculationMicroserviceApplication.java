@@ -1,0 +1,13 @@
+package com.bolivar.mucuru;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AppointmentCalculationMicroserviceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(AppointmentCalculationMicroserviceApplication.class, args);
+	}
+
+}
