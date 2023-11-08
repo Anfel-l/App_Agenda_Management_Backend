@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,9 @@ public class MedicalUserRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     
+    
+    
+
     public MedicalUser getMedicalUserById(Long userId) {
     	SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         		.withCatalogName("PCK_MEDICAL_USER")
@@ -69,8 +73,8 @@ public class MedicalUserRepository {
         		.withCatalogName("PCK_MEDICAL_USER")
         		.withProcedureName("Proc_Get_MEDICAL_USER_BY_DOCUMENT")
                 .declareParameters(
-                        new SqlOutParameter("Ip_medical_user", OracleTypes.CURSOR, new MedicalUserRowMapper()),
-                        new SqlParameter("Op_document", Types.VARCHAR)
+                        new SqlOutParameter("Op_medical_user", OracleTypes.CURSOR, new MedicalUserRowMapper()),
+                        new SqlParameter("Ip_document", Types.VARCHAR)
                     );
 
 

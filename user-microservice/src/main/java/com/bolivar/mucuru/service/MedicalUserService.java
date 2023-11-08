@@ -37,4 +37,7 @@ public class MedicalUserService {
     public void updateMedicalUser(MedicalUser user) {
     	medicalUserRepository.updateMedicalUser(user);
     }
+    
+    
+
 }
