@@ -26,20 +26,22 @@ public class LoginRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     
-    public LoginResponseDTO userLogin(String document, String password) {
+    public LoginResponseDTO userLogin(int documentTypeId, String document, String password) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PCK_USER_LOGIN")
                 .withProcedureName("Proc_User_Login")
                 .declareParameters(
                         new SqlOutParameter("Op_UserId", Types.INTEGER),
                         new SqlOutParameter("Op_Result", Types.VARCHAR),
+                        new SqlParameter("Ip_document_type_id", Types.INTEGER),
                         new SqlParameter("Ip_Document", Types.VARCHAR),
                         new SqlParameter("Ip_Password", Types.VARCHAR)
                 );
         
-        SqlParameterSource in = new MapSqlParameterSource()
-                .addValue("Ip_Document", document)
-                .addValue("Ip_Password", password);
+        MapSqlParameterSource in = new MapSqlParameterSource();
+        		in.addValue("Ip_document_type_id", documentTypeId);
+                in.addValue("Ip_Document", document);
+                in.addValue("Ip_Password", password);
         
         Map<String, Object> out = jdbcCall.execute(in);
         

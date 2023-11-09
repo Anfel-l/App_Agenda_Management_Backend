@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AppointmentDetailDTO {
 	private Integer userId;
-	private Integer medicalAppointmentId;
+	private Integer medicalAppointmentTypeId;
 	private Integer medicalFieldId;
 	private Integer symptomId;
 }

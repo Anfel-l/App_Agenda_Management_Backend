@@ -53,8 +53,7 @@ public class DoctorManagementRepository {
         if (!doctorList.isEmpty()) {
             return doctorList.get(0);
         }
-        return null;
-		
+        return null;		
 	}
 	
 	public static final class DoctorDTORowMapper implements RowMapper<DoctorDTO>{

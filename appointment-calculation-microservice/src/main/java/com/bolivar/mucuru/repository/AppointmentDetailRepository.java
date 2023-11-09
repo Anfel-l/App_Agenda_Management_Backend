@@ -34,12 +34,12 @@ public class AppointmentDetailRepository {
     					new SqlParameter("Ip_SymptomId", OracleTypes.NUMBER),
     					new SqlOutParameter("Op_AppointmentId", OracleTypes.NUMBER)
     					);
-    	
+  
     	MapSqlParameterSource in = new MapSqlParameterSource();
     		in.addValue("Ip_User_Id", appointment.getUserId());
-    		in.addValue("Ip_MedicalAppointmentTypeId", appointment.getUserId());
-    		in.addValue("Ip_Medical_fieldId", appointment.getUserId());
-    		in.addValue("Ip_SymptomId", appointment.getUserId());
+    		in.addValue("Ip_MedicalAppointmentTypeId", appointment.getMedicalAppointmentTypeId());
+    		in.addValue("Ip_Medical_fieldId", appointment.getMedicalFieldId());
+    		in.addValue("Ip_SymptomId", appointment.getSymptomId());
     	jdbcCall.execute(in);
     }
 }

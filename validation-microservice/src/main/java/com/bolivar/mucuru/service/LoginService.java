@@ -16,7 +16,7 @@ public class LoginService {
 	}
 	
 	public LoginResponseDTO userLogin(LoginDTO loginDTO) {
-	    return loginRepository.userLogin(loginDTO.getDocument(), loginDTO.getPassword());
+	    return loginRepository.userLogin(loginDTO.getDocumentTypeId(), loginDTO.getDocument(), loginDTO.getPassword());
 	}
 
 }

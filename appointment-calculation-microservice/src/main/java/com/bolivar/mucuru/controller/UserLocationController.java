@@ -30,7 +30,7 @@ public class UserLocationController {
 			List<MedicalCenterDTO> medicalCenters = userLocationService.getCentersByUserLocation(userId);
 			return ResponseEntity.ok(medicalCenters);
 		} catch (Exception e) {
-			return (ResponseEntity<List<MedicalCenterDTO>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 		}
 	}
 }

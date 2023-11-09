@@ -23,7 +23,7 @@ public class DetailController {
 		this.detailService = detailService;
 	}
 	
-    @PostMapping("/api/medical-user/insert/")
+    @PostMapping("/api/medical-detail/insert/")
     public ResponseEntity<?> assignAppointment(@RequestBody DetailDTO detail) {
         try {
             ResponseDTO result = detailService.assignAppointment(detail);

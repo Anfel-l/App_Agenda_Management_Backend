@@ -138,6 +138,7 @@ public class MedicalUserRepository {
 
         // Create Map containing parameter values
         MapSqlParameterSource in = new MapSqlParameterSource();
+        		in.addValue("Ip_user_id", user.getUserId());
                 in.addValue("Ip_first_name", user.getFirstName());
                 in.addValue("Ip_second_name", user.getSecondName());
                 in.addValue("Ip_last_name", user.getLastName());
