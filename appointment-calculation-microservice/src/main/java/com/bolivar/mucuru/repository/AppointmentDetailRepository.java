@@ -17,17 +17,12 @@ import oracle.jdbc.OracleTypes;
 @Repository
 public class AppointmentDetailRepository {
 
-	
-	
 	private JdbcTemplate jdbcTemplate;
     private SimpleJdbcCall simpleJdbcCall;
-
     @Autowired
     public AppointmentDetailRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-    
-    
     public void insertAppointmentDetails(AppointmentDetailDTO appointment) {
     	SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
     			.withCatalogName("PCK_APPOINTMENT_DETAILS")
@@ -45,8 +40,6 @@ public class AppointmentDetailRepository {
     		in.addValue("Ip_MedicalAppointmentTypeId", appointment.getUserId());
     		in.addValue("Ip_Medical_fieldId", appointment.getUserId());
     		in.addValue("Ip_SymptomId", appointment.getUserId());
-    		
     	jdbcCall.execute(in);
     }
-    
 }
