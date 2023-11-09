@@ -31,7 +31,7 @@ public class DoctorManagementController {
 			DoctorDTO doctor = doctorManagementService.getDoctorAvailable(medicalAppointmentId, userId);
 			return ResponseEntity.ok(doctor);
 		} catch (Exception e) {
-			return (ResponseEntity<DoctorDTO>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			
 		}
 	

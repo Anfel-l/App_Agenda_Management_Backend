@@ -38,7 +38,7 @@ public class DoctorManagementRepository {
 				.withCatalogName("PCK_DOCTOR_AVAILABILITY")
 				.withProcedureName("Proc_Get_Doctors_By_Appointment")
 				.declareParameters(
-						new SqlOutParameter("Op_DOCTORS", OracleTypes.CURSOR, new DoctorDTORowMapper()),
+						new SqlOutParameter("Op_doctor", OracleTypes.CURSOR, new DoctorDTORowMapper()),
 						new SqlParameter("Ip_medical_appointment_id", OracleTypes.NUMBER),
 						new SqlParameter("Ip_user_id", OracleTypes.NUMBER)
 						);
@@ -48,7 +48,7 @@ public class DoctorManagementRepository {
 			in.addValue("Ip_user_id", userId);
 		
 		Map<String, Object> out = simpleJdbcCall.execute(in);
-		List<DoctorDTO> doctorList = (List<DoctorDTO>) out.get("Op_DOCTORS");
+		List<DoctorDTO> doctorList = (List<DoctorDTO>) out.get("Op_doctor");
 		
         if (!doctorList.isEmpty()) {
             return doctorList.get(0);
