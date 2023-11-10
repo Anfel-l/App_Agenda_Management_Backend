@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bolivar.mucuru.dto.AppointmentDetailDTO;
+import com.bolivar.mucuru.dto.ResponseDTO;
 import com.bolivar.mucuru.repository.AppointmentDetailRepository;
 
 @Service
@@ -16,7 +17,7 @@ public class AppointmentDetailService {
 		this.appointmentRepository = appointmentRepository;
 	}
 	
-	public int insertAppointmentDetails(AppointmentDetailDTO appointment) {
+	public ResponseDTO insertAppointmentDetails(AppointmentDetailDTO appointment) {
 		return appointmentRepository.insertAppointmentDetails(appointment);
 	}
 

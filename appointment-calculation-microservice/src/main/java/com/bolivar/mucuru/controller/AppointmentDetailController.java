@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bolivar.mucuru.dto.AppointmentDetailDTO;
+import com.bolivar.mucuru.dto.ResponseDTO;
 import com.bolivar.mucuru.service.AppointmentDetailService;
 
 @RestController
@@ -25,10 +26,9 @@ public class AppointmentDetailController {
 	@PostMapping("/api/apppointment-detail/insert/")
 	public ResponseEntity<?> insertAppointmentDetails(@RequestBody AppointmentDetailDTO appointment){
 		try {
-			int result = appointmentDetailService.insertAppointmentDetails(appointment);
+			ResponseDTO result = appointmentDetailService.insertAppointmentDetails(appointment);
 			return ResponseEntity.ok(result);
 		} catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inserting appointment: " + e.getMessage());
-		}
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inserting appointment: " + e.getMessage());		}
 	}
 }
