@@ -26,7 +26,7 @@ import oracle.jdbc.OracleTypes;
 public class DoctorShiftRepository {
 	
 	private JdbcTemplate jdbcTemplate;
-	private SimpleJdbcCall simpleJdbcCall;
+	private SimpleJdbcCall jdbcCall;
 	
 	@Autowired
 	public DoctorShiftRepository(DataSource dataSource) {
@@ -35,7 +35,7 @@ public class DoctorShiftRepository {
 	
 	
 	public DoctorShiftDTO getDoctorShiftById(Long doctorShiftId) {
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Get_DOCTOR_SHIFT_BY_ID")
 				.declareParameters(
@@ -55,7 +55,7 @@ public class DoctorShiftRepository {
 	
 	
 	public List<DoctorShiftDTO> getAllDoctorShifts(){
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Get_All_DOCTOR_SHIFT")
 				.declareParameters(
@@ -87,7 +87,7 @@ public class DoctorShiftRepository {
 	}
 	
 	public void updateDoctorShift(DoctorShiftDTO doctorShift) {
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Update_DOCTOR_SHIFT")
 				.declareParameters(

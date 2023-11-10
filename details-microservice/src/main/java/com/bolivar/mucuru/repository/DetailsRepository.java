@@ -91,6 +91,16 @@ public class DetailsRepository {
 		return appointmentList;
 	}
 	
+	public List<AppointmentDetailDetailsDTO> getMassiveAgenda(){
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+				.withCatalogName("PCK_MASSIVE_DOCTOR_AGENDA")
+				.withProcedureName("Proc_GET_AGENDA")
+				.declareParameters(
+						new SqlOutParameter("Op_agenda", OracleTypes.CURSOR, new AppointmentDetailDetailsRowMapper()));
+		Map<String, Object> out = jdbcCall.execute();
+		return (List<AppointmentDetailDetailsDTO>) out.get("Op_agenda");
+	}
+	
 	
 	public static final class AppointmentDetailRowMapper implements RowMapper<AppointmentDetailsDTO>{
 

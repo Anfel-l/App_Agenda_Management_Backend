@@ -25,7 +25,7 @@ import oracle.jdbc.OracleTypes;
 public class AppointmentDetailRepository {
 
 	private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcCall simpleJdbcCall;
+    private SimpleJdbcCall jdbcCall;
     
     @Autowired
     public AppointmentDetailRepository(DataSource dataSource) {
@@ -33,7 +33,7 @@ public class AppointmentDetailRepository {
     }
     
     public ResponseDTO insertAppointmentDetails(AppointmentDetailDTO appointment) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PCK_APPOINTMENT_DETAILS")
                 .withProcedureName("Proc_Enter_Appointment_Details")
                 .declareParameters(
