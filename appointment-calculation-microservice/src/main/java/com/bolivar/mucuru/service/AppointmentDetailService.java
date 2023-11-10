@@ -16,8 +16,8 @@ public class AppointmentDetailService {
 		this.appointmentRepository = appointmentRepository;
 	}
 	
-	public void insertAppointmentDetails(AppointmentDetailDTO appointment) {
-		appointmentRepository.insertAppointmentDetails(appointment);
+	public int insertAppointmentDetails(AppointmentDetailDTO appointment) {
+		return appointmentRepository.insertAppointmentDetails(appointment);
 	}
 
 }

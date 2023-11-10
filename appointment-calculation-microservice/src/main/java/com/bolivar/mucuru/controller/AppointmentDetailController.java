@@ -23,10 +23,10 @@ public class AppointmentDetailController {
 	}
 	
 	@PostMapping("/api/apppointment-detail/insert/")
-	public ResponseEntity<String> insertAppointmentDetails(@RequestBody AppointmentDetailDTO appointment){
+	public ResponseEntity<?> insertAppointmentDetails(@RequestBody AppointmentDetailDTO appointment){
 		try {
-			appointmentDetailService.insertAppointmentDetails(appointment);
-			return ResponseEntity.ok("Appointment inserted successfully");
+			int result = appointmentDetailService.insertAppointmentDetails(appointment);
+			return ResponseEntity.ok(result);
 		} catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inserting appointment: " + e.getMessage());
 		}

@@ -1,5 +1,8 @@
 package com.bolivar.mucuru.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +14,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import com.bolivar.mucuru.dto.AppointmentDetailDTO;
-
 import oracle.jdbc.OracleTypes;
 
 @Repository
@@ -19,11 +21,13 @@ public class AppointmentDetailRepository {
 
 	private JdbcTemplate jdbcTemplate;
     private SimpleJdbcCall simpleJdbcCall;
+    
     @Autowired
     public AppointmentDetailRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-    public void insertAppointmentDetails(AppointmentDetailDTO appointment) {
+    
+    public int insertAppointmentDetails(AppointmentDetailDTO appointment) {
     	SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
     			.withCatalogName("PCK_APPOINTMENT_DETAILS")
     			.withProcedureName("Proc_Enter_Appointment_Details")
@@ -40,6 +44,18 @@ public class AppointmentDetailRepository {
     		in.addValue("Ip_MedicalAppointmentTypeId", appointment.getMedicalAppointmentTypeId());
     		in.addValue("Ip_Medical_fieldId", appointment.getMedicalFieldId());
     		in.addValue("Ip_SymptomId", appointment.getSymptomId());
-    	jdbcCall.execute(in);
+    		
+    		Map<String, Object> out = jdbcCall.execute(in);
+    		Integer appointmentId = (Integer) out.get("Op_AppointmentId");
+    		
+    	    return appointmentId;    	
     }
 }
+
+
+
+
+
+
+
+
