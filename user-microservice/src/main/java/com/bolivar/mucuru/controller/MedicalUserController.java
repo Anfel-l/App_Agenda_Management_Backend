@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.bolivar.mucuru.model.MedicalUser;
+import com.bolivar.mucuru.dto.MedicalUserDTO;
+import com.bolivar.mucuru.dto.MedicalUserDetailDTO;
 import com.bolivar.mucuru.service.MedicalUserService;
 
 @RestController
@@ -21,8 +22,8 @@ public class MedicalUserController {
     }
 
     @GetMapping("/api/medical-user/id/{id}")
-    public ResponseEntity<MedicalUser> getMedicalUserById(@PathVariable("id") Long userId) {
-        MedicalUser medicalUser = medicalUserService.getMedicalUserById(userId);
+    public ResponseEntity<MedicalUserDTO> getMedicalUserById(@PathVariable("id") Long userId) {
+        MedicalUserDTO medicalUser = medicalUserService.getMedicalUserById(userId);
         if (medicalUser != null) {
             return ResponseEntity.ok(medicalUser);
         } else {
@@ -30,9 +31,19 @@ public class MedicalUserController {
         }
     }
     
+    @GetMapping("/api/medical-user/detail/{id}")
+    public ResponseEntity<MedicalUserDetailDTO> getMedicalUserDetail(@PathVariable("id") Long userId) {
+        MedicalUserDetailDTO medicalUser = medicalUserService.getMedicalUserDetail(userId);
+        if (medicalUser != null) {
+            return ResponseEntity.ok(medicalUser);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+   
     @GetMapping("/api/medical-user/document/{document}")
-    public ResponseEntity<MedicalUser> getMedicalUserByDocument(@PathVariable("document") String document){
-    	MedicalUser medicalUser = medicalUserService.getMedicalUserByDocument(document);
+    public ResponseEntity<MedicalUserDTO> getMedicalUserByDocument(@PathVariable("document") String document){
+    	MedicalUserDTO medicalUser = medicalUserService.getMedicalUserByDocument(document);
     	if (medicalUser != null) {
     		return ResponseEntity.ok(medicalUser);
     	} else {
@@ -41,7 +52,7 @@ public class MedicalUserController {
     }
     
     @PostMapping("/api/medical-user/insert/")
-    public ResponseEntity<String> insertMedicalUser(@RequestBody MedicalUser user) {
+    public ResponseEntity<String> insertMedicalUser(@RequestBody MedicalUserDTO user) {
         try {
             medicalUserService.insertMedicalUser(user);
             return ResponseEntity.ok("User inserted successfully");
@@ -51,7 +62,7 @@ public class MedicalUserController {
     }
 
     @PutMapping("/api/medical-user/update/")
-    public ResponseEntity<String> updateMedicalUser(@RequestBody MedicalUser user) {
+    public ResponseEntity<String> updateMedicalUser(@RequestBody MedicalUserDTO user) {
         try {
             medicalUserService.updateMedicalUser(user);
             return ResponseEntity.ok("User updated successfully");
@@ -61,12 +72,12 @@ public class MedicalUserController {
     }
     
     @GetMapping("/api/medical-user/")
-    public ResponseEntity<List<MedicalUser>> getAllMedicalUser(){
+    public ResponseEntity<List<MedicalUserDTO>> getAllMedicalUser(){
         try {
-        	List<MedicalUser> users = medicalUserService.getAllMedicalUsers();
+        	List<MedicalUserDTO> users = medicalUserService.getAllMedicalUsers();
             return ResponseEntity.ok(users);
 		} catch (Exception e) {
-            return (ResponseEntity<List<MedicalUser>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+            return (ResponseEntity<List<MedicalUserDTO>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
     }
     

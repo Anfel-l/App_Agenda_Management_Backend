@@ -18,7 +18,8 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.bolivar.mucuru.model.Doctor;
+import com.bolivar.mucuru.dto.DoctorDTO;
+import com.bolivar.mucuru.dto.DoctorDetailDTO;
 
 import oracle.jdbc.OracleTypes;
 
@@ -26,15 +27,15 @@ import oracle.jdbc.OracleTypes;
 public class DoctorRepository {
 	
 	private JdbcTemplate jdbcTemplate;
-	private SimpleJdbcCall simpleJdbcCall;
+	private SimpleJdbcCall jdbcCall;
 	
 	@Autowired
 	public DoctorRepository(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	public Doctor getDoctorById(Long doctorId){
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+	public DoctorDTO getDoctorById(Long doctorId){
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR")
 				.withProcedureName("Proc_Get_DOCTOR_BY_ID")
 				.declareParameters(
@@ -45,7 +46,7 @@ public class DoctorRepository {
 		SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_doctor_id", doctorId);
 		
 		Map<String, Object> out = jdbcCall.execute(in);
-		List<Doctor> doctorList = (List<Doctor>) out.get("Op_doctor");
+		List<DoctorDTO> doctorList = (List<DoctorDTO>) out.get("Op_doctor");
 		
 		if (!doctorList.isEmpty()) {
 			return doctorList.get(0);
@@ -54,18 +55,18 @@ public class DoctorRepository {
 		return null;
 	}
 	
-	public List<Doctor> getAllDoctors(){
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+	public List<DoctorDTO> getAllDoctors(){
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR")
 				.withProcedureName("Proc_Get_All_DOCTOR")
 				.declareParameters(new SqlOutParameter("Op_doctor", OracleTypes.CURSOR, new DoctorRowMapper()));
 		
 		Map<String, Object> out = jdbcCall.execute();
-		return (List<Doctor>) out.get("Op_doctor");
+		return (List<DoctorDTO>) out.get("Op_doctor");
 	}
 	
-	public void insertDoctor(Doctor doctor) {
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+	public void insertDoctor(DoctorDTO doctor) {
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR")
 				.withProcedureName("Proc_Insert_DOCTOR")
 				.declareParameters(
@@ -85,8 +86,8 @@ public class DoctorRepository {
 		jdbcCall.execute(in);
 	}
 	
-	public void updateDoctor(Doctor doctor) {
-		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+	public void updateDoctor(DoctorDTO doctor) {
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR")
 				.withProcedureName("Proc_Update_DOCTOR")
 				.declareParameters(
@@ -109,11 +110,45 @@ public class DoctorRepository {
 		
 	}
 	
-	public static final class DoctorRowMapper implements RowMapper<Doctor>{
+	public DoctorDetailDTO getDoctorDetail(Long doctorId){
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+				.withCatalogName("PCK_GET_DETAILS")
+				.withProcedureName("Proc_GET_DOCTOR_DETAILS")
+				.declareParameters(
+							new SqlOutParameter("Op_details", OracleTypes.CURSOR, new DoctorDetailRowMapper()),
+							new SqlParameter("Ip_doctor_id", Types.INTEGER)
+						);
+		
+		SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_doctor_id", doctorId);
+		
+		Map<String, Object> out = jdbcCall.execute(in);
+		List<DoctorDetailDTO> doctorList = (List<DoctorDetailDTO>) out.get("Op_details");
+		
+		if (!doctorList.isEmpty()) {
+			return doctorList.get(0);
+		}
+		
+		return null;
+	}
+	
+	public static final class DoctorDetailRowMapper implements RowMapper<DoctorDetailDTO>{
 
 		@Override
-		public Doctor mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return new Doctor(
+		public DoctorDetailDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			return new DoctorDetailDTO(
+	                rs.getString("first_name"),
+	                rs.getString("last_name"),
+	                rs.getString("medical_field_name"),
+	                rs.getString("medical_center_name")
+					);
+		}
+		
+	}
+	public static final class DoctorRowMapper implements RowMapper<DoctorDTO>{
+
+		@Override
+		public DoctorDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			return new DoctorDTO(
 					rs.getLong("doctor_id"),
 	                rs.getString("first_name"),
 	                rs.getString("second_name"),
@@ -123,8 +158,7 @@ public class DoctorRepository {
 					);
 			
 		}
-		
-		
+	
 	}
 
 }

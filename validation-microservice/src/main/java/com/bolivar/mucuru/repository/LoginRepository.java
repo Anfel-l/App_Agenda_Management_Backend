@@ -19,7 +19,7 @@ import com.bolivar.mucuru.dto.LoginResponseDTO;
 @Repository
 public class LoginRepository {
 	private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcCall simpleJdbcCall;
+    private SimpleJdbcCall jdbcCall;
 
     @Autowired
     public LoginRepository(DataSource dataSource) {
@@ -27,7 +27,7 @@ public class LoginRepository {
     }
     
     public LoginResponseDTO userLogin(int documentTypeId, String document, String password) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PCK_USER_LOGIN")
                 .withProcedureName("Proc_User_Login")
                 .declareParameters(

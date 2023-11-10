@@ -10,7 +10,8 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.bolivar.mucuru.model.MedicalUser;
+import com.bolivar.mucuru.dto.MedicalUserDTO;
+import com.bolivar.mucuru.dto.MedicalUserDetailDTO;
 
 import oracle.jdbc.OracleTypes;
 
@@ -26,18 +27,15 @@ import java.util.Map;
 public class MedicalUserRepository {
 
 	private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcCall simpleJdbcCall;
+    private SimpleJdbcCall jdbcCall;
 
     @Autowired
     public MedicalUserRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-    
-    
-    
 
-    public MedicalUser getMedicalUserById(Long userId) {
-    	SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+    public MedicalUserDTO getMedicalUserById(Long userId) {
+    	jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         		.withCatalogName("PCK_MEDICAL_USER")
         		.withProcedureName("Proc_Get_MEDICAL_USER_BY_ID")
                 .declareParameters(
@@ -49,7 +47,7 @@ public class MedicalUserRepository {
         SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_user_id", userId);
 
         Map<String, Object> out = jdbcCall.execute(in);
-        List<MedicalUser> userList = (List<MedicalUser>) out.get("Op_medical_user");
+        List<MedicalUserDTO> userList = (List<MedicalUserDTO>) out.get("Op_medical_user");
 
         if (!userList.isEmpty()) {
             return userList.get(0);
@@ -57,19 +55,19 @@ public class MedicalUserRepository {
         return null;
     }
 
-    public List<MedicalUser> getAllMedicalUsers() {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+    public List<MedicalUserDTO> getAllMedicalUsers() {
+        jdbcCall = new SimpleJdbcCall(jdbcTemplate)
                 .withCatalogName("PCK_MEDICAL_USER")
                 .withProcedureName("Proc_Get_All_MEDICAL_USER")
                 .declareParameters(new SqlOutParameter("Op_medical_users", OracleTypes.CURSOR, new MedicalUserRowMapper()));
 
         Map<String, Object> out = jdbcCall.execute();
-        return (List<MedicalUser>) out.get("Op_medical_users");
+        return (List<MedicalUserDTO>) out.get("Op_medical_users");
     }
 
-    public MedicalUser getMedicalUserByDocument(String document) {
+    public MedicalUserDTO getMedicalUserByDocument(String document) {
         
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         		.withCatalogName("PCK_MEDICAL_USER")
         		.withProcedureName("Proc_Get_MEDICAL_USER_BY_DOCUMENT")
                 .declareParameters(
@@ -81,7 +79,7 @@ public class MedicalUserRepository {
         SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_document", document);
 
         Map<String, Object> out = jdbcCall.execute(in);
-        List<MedicalUser> userList = (List<MedicalUser>) out.get("Op_medical_user");
+        List<MedicalUserDTO> userList = (List<MedicalUserDTO>) out.get("Op_medical_user");
 
         if (!userList.isEmpty()) {
             return userList.get(0);
@@ -89,8 +87,8 @@ public class MedicalUserRepository {
         return null;
     }
 
-    public void insertMedicalUser(MedicalUser user) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+    public void insertMedicalUser(MedicalUserDTO user) {
+        jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         		.withCatalogName("PCK_MEDICAL_USER")
         		.withProcedureName("Proc_Insert_MEDICAL_USER")
                 .declareParameters(
@@ -105,7 +103,6 @@ public class MedicalUserRepository {
                     new SqlParameter("Ip_email", Types.VARCHAR)
                 );
 
-        // Create Map containing parameter values
         MapSqlParameterSource in = new MapSqlParameterSource();
                 in.addValue("Ip_first_name", user.getFirstName());
                 in.addValue("Ip_second_name", user.getSecondName());
@@ -119,8 +116,8 @@ public class MedicalUserRepository {
         jdbcCall.execute(in);
     }
 
-    public void updateMedicalUser(MedicalUser user) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+    public void updateMedicalUser(MedicalUserDTO user) {
+        jdbcCall = new SimpleJdbcCall(jdbcTemplate)
         		.withCatalogName("PCK_MEDICAL_USER")
         		.withProcedureName("Proc_Update_MEDICAL_USER")
                 .declareParameters(
@@ -135,8 +132,7 @@ public class MedicalUserRepository {
                     new SqlParameter("Ip_location_id", Types.INTEGER),
                     new SqlParameter("Ip_email", Types.VARCHAR)
                 );
-
-        // Create Map containing parameter values
+        
         MapSqlParameterSource in = new MapSqlParameterSource();
         		in.addValue("Ip_user_id", user.getUserId());
                 in.addValue("Ip_first_name", user.getFirstName());
@@ -151,11 +147,45 @@ public class MedicalUserRepository {
         jdbcCall.execute(in);
     }
     
+    public MedicalUserDetailDTO getMedicalUserDetail(Long userId) {
+    	jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+        		.withCatalogName("PCK_GET_DETAILS")
+        		.withProcedureName("Proc_GET_USER_DETAILS")
+                .declareParameters(
+                        new SqlOutParameter("Op_details", OracleTypes.CURSOR, new MedicalUserDetailRowMapper()),
+                        new SqlParameter("Ip_user_id", Types.INTEGER)
+                    );
+
+        SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_user_id", userId);
+        Map<String, Object> out = jdbcCall.execute(in);
+        List<MedicalUserDetailDTO> userList = (List<MedicalUserDetailDTO>) out.get("Op_details");
+
+        if (!userList.isEmpty()) {
+            return userList.get(0);
+        }
+        return null;
+    }
     
-    private static final class MedicalUserRowMapper implements RowMapper<MedicalUser> {
+    private static final class MedicalUserDetailRowMapper implements RowMapper<MedicalUserDetailDTO>{
+
+		@Override
+		public MedicalUserDetailDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new MedicalUserDetailDTO(             
+                rs.getString("first_name"),
+                rs.getString("second_name"),
+                rs.getString("last_name"),
+                rs.getString("document"),
+                rs.getString("document_type"),
+                rs.getString("contract_type_name"),
+                rs.getString("location_name")
+            );
+		}    	
+    }
+    
+    private static final class MedicalUserRowMapper implements RowMapper<MedicalUserDTO> {
         @Override
-        public MedicalUser mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new MedicalUser(
+        public MedicalUserDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new MedicalUserDTO(
                 rs.getLong("user_id"),
                 rs.getString("first_name"),
                 rs.getString("second_name"),

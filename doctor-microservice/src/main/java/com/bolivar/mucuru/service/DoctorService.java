@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bolivar.mucuru.model.Doctor;
+import com.bolivar.mucuru.dto.DoctorDTO;
+import com.bolivar.mucuru.dto.DoctorDetailDTO;
 import com.bolivar.mucuru.repository.DoctorRepository;
 
 @Service
@@ -18,19 +19,23 @@ public class DoctorService {
 		this.doctorRepository = doctorReppository;
 	}
 	
-	public Doctor getDoctorById(Long doctorId) {
+	public DoctorDTO getDoctorById(Long doctorId) {
 		return doctorRepository.getDoctorById(doctorId);
 	}
 	
-	public List<Doctor> getAllDoctors(){
+	public List<DoctorDTO> getAllDoctors(){
 		return doctorRepository.getAllDoctors();
 	}
 	
-	public void insertDoctor(Doctor doctor) {
+	public void insertDoctor(DoctorDTO doctor) {
 		doctorRepository.insertDoctor(doctor);
 	}
 	
-	public void updateDoctor(Doctor doctor) {
+	public void updateDoctor(DoctorDTO doctor) {
 		doctorRepository.updateDoctor(doctor);
+	}
+	
+	public DoctorDetailDTO getDoctorDetail(Long doctorId) {
+		return doctorRepository.getDoctorDetail(doctorId);
 	}
 }

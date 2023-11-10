@@ -18,7 +18,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
-import com.bolivar.mucuru.model.DoctorShift;
+import com.bolivar.mucuru.dto.DoctorShiftDTO;
 
 import oracle.jdbc.OracleTypes;
 
@@ -34,7 +34,7 @@ public class DoctorShiftRepository {
 	}
 	
 	
-	public DoctorShift getDoctorShiftById(Long doctorShiftId) {
+	public DoctorShiftDTO getDoctorShiftById(Long doctorShiftId) {
 		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Get_DOCTOR_SHIFT_BY_ID")
@@ -46,7 +46,7 @@ public class DoctorShiftRepository {
 		SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_doctor_shift_id", doctorShiftId);
 		
 		Map<String, Object> out = jdbcCall.execute(in);
-		List<DoctorShift> doctorShiftList = (List<DoctorShift>) out.get("Op_doctor_shift");
+		List<DoctorShiftDTO> doctorShiftList = (List<DoctorShiftDTO>) out.get("Op_doctor_shift");
 		if (!doctorShiftList.isEmpty()) {
 			return doctorShiftList.get(0);
 		}
@@ -54,7 +54,7 @@ public class DoctorShiftRepository {
 	}
 	
 	
-	public List<DoctorShift> getAllDoctorShifts(){
+	public List<DoctorShiftDTO> getAllDoctorShifts(){
 		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Get_All_DOCTOR_SHIFT")
@@ -63,10 +63,10 @@ public class DoctorShiftRepository {
 						);
 		
 		Map<String, Object> out = jdbcCall.execute();
-		return (List<DoctorShift>) out.get("Op_doctor_shift");
+		return (List<DoctorShiftDTO>) out.get("Op_doctor_shift");
 	}
 	
-	public void insertDoctorShift(DoctorShift doctorShift) {
+	public void insertDoctorShift(DoctorShiftDTO doctorShift) {
 		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Insert_DOCTOR_SHIFT")
@@ -86,7 +86,7 @@ public class DoctorShiftRepository {
 		jdbcCall.execute(in);
 	}
 	
-	public void updateDoctorShift(DoctorShift doctorShift) {
+	public void updateDoctorShift(DoctorShiftDTO doctorShift) {
 		SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
 				.withCatalogName("PCK_DOCTOR_SHIFT")
 				.withProcedureName("Proc_Update_DOCTOR_SHIFT")
@@ -107,11 +107,11 @@ public class DoctorShiftRepository {
 			jdbcCall.execute(in);
 	}
 	
-	public static final class DoctorShiftRowMapper implements RowMapper<DoctorShift>{
+	public static final class DoctorShiftRowMapper implements RowMapper<DoctorShiftDTO>{
 
 		@Override
-		public DoctorShift mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return new DoctorShift(
+		public DoctorShiftDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			return new DoctorShiftDTO(
 					rs.getLong("doctor_shift_id"),
 					rs.getInt("doctor_id"),
 					rs.getDate("shift_date"),

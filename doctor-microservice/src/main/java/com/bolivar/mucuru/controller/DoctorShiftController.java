@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bolivar.mucuru.model.Doctor;
-import com.bolivar.mucuru.model.DoctorShift;
+import com.bolivar.mucuru.dto.DoctorDTO;
+import com.bolivar.mucuru.dto.DoctorShiftDTO;
 import com.bolivar.mucuru.service.DoctorShiftService;
 
 
@@ -31,8 +31,8 @@ public class DoctorShiftController {
 	}
 	
 	@GetMapping("/api/doctor-shift/id/{id}")
-	public ResponseEntity<DoctorShift> getDoctorShiftById(@PathVariable("id") Long doctorShiftId){
-		DoctorShift doctorShift = doctorShiftService.getDoctorShiftById(doctorShiftId);
+	public ResponseEntity<DoctorShiftDTO> getDoctorShiftById(@PathVariable("id") Long doctorShiftId){
+		DoctorShiftDTO doctorShift = doctorShiftService.getDoctorShiftById(doctorShiftId);
 		
 		if (doctorShift != null) {
 			return ResponseEntity.ok(doctorShift);
@@ -42,17 +42,17 @@ public class DoctorShiftController {
 	}
 	
 	@GetMapping("/api/doctor-shift/")
-	public ResponseEntity<List<DoctorShift>> getAllDoctorShifts(){
+	public ResponseEntity<List<DoctorShiftDTO>> getAllDoctorShifts(){
 		try {
-			List<DoctorShift> doctorShift = doctorShiftService.getAllDoctorShifts();
+			List<DoctorShiftDTO> doctorShift = doctorShiftService.getAllDoctorShifts();
 			return ResponseEntity.ok(doctorShift);
 		} catch (Exception e) {
-			return (ResponseEntity<List<DoctorShift>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+			return (ResponseEntity<List<DoctorShiftDTO>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PostMapping("/api/doctor-shift/insert/")
-	public ResponseEntity<String> insertDoctorShift(@RequestBody DoctorShift doctorShift){
+	public ResponseEntity<String> insertDoctorShift(@RequestBody DoctorShiftDTO doctorShift){
 		try {
 			doctorShiftService.insertDoctorShift(doctorShift);
 			return ResponseEntity.ok("Doctor shift inserted successfully");
@@ -63,7 +63,7 @@ public class DoctorShiftController {
 	}
 	
 	@PutMapping("/api/doctor-shift/update/")
-	public ResponseEntity<String> updateDoctorShift(@RequestBody DoctorShift doctorShift){
+	public ResponseEntity<String> updateDoctorShift(@RequestBody DoctorShiftDTO doctorShift){
 		try {
 			doctorShiftService.updateDoctorShift(doctorShift);
 			return ResponseEntity.ok("Doctor Shift updated successfully");

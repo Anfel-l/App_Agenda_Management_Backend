@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bolivar.mucuru.model.Doctor;
+import com.bolivar.mucuru.dto.DoctorDTO;
+import com.bolivar.mucuru.dto.DoctorDetailDTO;
 import com.bolivar.mucuru.service.DoctorService;
 
 @RestController
@@ -30,8 +31,19 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/api/doctor/id/{id}")
-	public ResponseEntity<Doctor> getDoctorById(@PathVariable("id") Long doctorId){
-		Doctor doctor = doctorService.getDoctorById(doctorId);
+	public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable("id") Long doctorId){
+		DoctorDTO doctor = doctorService.getDoctorById(doctorId);
+		
+		if (doctor != null) {
+			return ResponseEntity.ok(doctor);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@GetMapping("/api/doctor/detail/{id}")
+	public ResponseEntity<DoctorDetailDTO> getDoctorDetail(@PathVariable("id") Long doctorId){
+		DoctorDetailDTO doctor = doctorService.getDoctorDetail(doctorId);
 		
 		if (doctor != null) {
 			return ResponseEntity.ok(doctor);
@@ -41,17 +53,17 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/api/doctor/")
-	public ResponseEntity<List<Doctor>> getAllDoctor(){
+	public ResponseEntity<List<DoctorDTO>> getAllDoctor(){
 		try {
-			List<Doctor> doctor = doctorService.getAllDoctors();
+			List<DoctorDTO> doctor = doctorService.getAllDoctors();
 			return ResponseEntity.ok(doctor);
 		} catch (Exception e) {
-			return (ResponseEntity<List<Doctor>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+			return (ResponseEntity<List<DoctorDTO>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
 	@PostMapping("/api/doctor/insert/")
-	public ResponseEntity<String> insertDoctor(@RequestBody Doctor doctor){
+	public ResponseEntity<String> insertDoctor(@RequestBody DoctorDTO doctor){
 		try {
 			doctorService.insertDoctor(doctor);
 			return ResponseEntity.ok("Doctor inserted successfully");
@@ -62,7 +74,7 @@ public class DoctorController {
 	}
 	
 	@PutMapping("/api/doctor/update/")
-	public ResponseEntity<String> updateDoctor(@RequestBody Doctor doctor){
+	public ResponseEntity<String> updateDoctor(@RequestBody DoctorDTO doctor){
 		try {
 			doctorService.updateDoctor(doctor);
 			return ResponseEntity.ok("Doctor updated successfully");

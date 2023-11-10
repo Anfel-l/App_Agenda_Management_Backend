@@ -5,7 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bolivar.mucuru.model.MedicalUser;
+import com.bolivar.mucuru.dto.MedicalUserDTO;
+import com.bolivar.mucuru.dto.MedicalUserDetailDTO;
 import com.bolivar.mucuru.repository.MedicalUserRepository;
 
 @Service
@@ -18,24 +19,28 @@ public class MedicalUserService {
         this.medicalUserRepository = medicalUserRepository;
     }
 
-    public MedicalUser getMedicalUserById(Long userId) {
+    public MedicalUserDTO getMedicalUserById(Long userId) {
         return medicalUserRepository.getMedicalUserById(userId);
     }
     
-    public List<MedicalUser> getAllMedicalUsers(){
+    public List<MedicalUserDTO> getAllMedicalUsers(){
     	return medicalUserRepository.getAllMedicalUsers();
     }
     
-    public MedicalUser getMedicalUserByDocument(String document) {
+    public MedicalUserDTO getMedicalUserByDocument(String document) {
     	return medicalUserRepository.getMedicalUserByDocument(document);
     }
     
-    public void insertMedicalUser(MedicalUser user) {
+    public void insertMedicalUser(MedicalUserDTO user) {
     	medicalUserRepository.insertMedicalUser(user);
     }
     
-    public void updateMedicalUser(MedicalUser user) {
+    public void updateMedicalUser(MedicalUserDTO user) {
     	medicalUserRepository.updateMedicalUser(user);
+    }
+    
+    public MedicalUserDetailDTO getMedicalUserDetail(Long userId) {
+    	return medicalUserRepository.getMedicalUserDetail(userId);
     }
     
     

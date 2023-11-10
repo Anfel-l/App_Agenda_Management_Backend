@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bolivar.mucuru.model.DoctorShift;
+import com.bolivar.mucuru.dto.DoctorShiftDTO;
 import com.bolivar.mucuru.repository.DoctorShiftRepository;
 
 @Service
@@ -18,19 +18,19 @@ public class DoctorShiftService {
 		this.doctorShiftRepository = doctorShiftRepository;
 	}
 	
-	public DoctorShift getDoctorShiftById(Long doctorShiftId) {
+	public DoctorShiftDTO getDoctorShiftById(Long doctorShiftId) {
 		return doctorShiftRepository.getDoctorShiftById(doctorShiftId);
 	}
 	
-	public List<DoctorShift> getAllDoctorShifts(){
+	public List<DoctorShiftDTO> getAllDoctorShifts(){
 		return doctorShiftRepository.getAllDoctorShifts();
 	}
 	
-	public void insertDoctorShift(DoctorShift doctorShift) {
+	public void insertDoctorShift(DoctorShiftDTO doctorShift) {
 		doctorShiftRepository.insertDoctorShift(doctorShift);
 	}
 	
-	public void updateDoctorShift(DoctorShift doctorShift) {
+	public void updateDoctorShift(DoctorShiftDTO doctorShift) {
 		doctorShiftRepository.updateDoctorShift(doctorShift);
 	}
 }
