@@ -1,5 +1,7 @@
 package com.bolivar.mucuru.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,4 +25,12 @@ public class DetailsService {
 	public AppointmentDetailDetailsDTO getAppointmentDetailDetails(Integer appointmentDetailId) {
 		return detailsRepository.getAppointmentDetailDetails(appointmentDetailId);
 	}
+	
+	public List<AppointmentDetailDetailsDTO> getAgendaDetail(Integer doctorId) {
+		return detailsRepository.getAgendaDetail(doctorId);
+	}
+
+	
+	
+	
 }

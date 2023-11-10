@@ -75,6 +75,21 @@ public class DetailsRepository {
 		}
 	}
 	
+	public List<AppointmentDetailDetailsDTO> getAgendaDetail(Integer doctorId) {
+		jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+				.withCatalogName("PCK_GET_DETAILS")
+				.withProcedureName("Proc_GET_AGENDA_DETAILS")
+				.declareParameters(
+						new SqlParameter("Ip_doctor_id", OracleTypes.INTEGER),
+						new SqlOutParameter("Op_agenda", OracleTypes.CURSOR, new AppointmentDetailDetailsRowMapper())
+						);
+		SqlParameterSource in = new MapSqlParameterSource().addValue("Ip_doctor_id", doctorId);
+		
+		Map<String, Object> out = jdbcCall.execute(in);
+		List<AppointmentDetailDetailsDTO> appointmentList = (List<AppointmentDetailDetailsDTO>) out.get("Op_agenda");
+		
+		return appointmentList;
+	}
 	
 	
 	public static final class AppointmentDetailRowMapper implements RowMapper<AppointmentDetailsDTO>{

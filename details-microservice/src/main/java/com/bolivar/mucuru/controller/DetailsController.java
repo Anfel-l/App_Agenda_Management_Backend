@@ -1,6 +1,9 @@
 package com.bolivar.mucuru.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +44,16 @@ public class DetailsController {
 			return ResponseEntity.ok(appointment);
 		} else {
 			return ResponseEntity.notFound().build();
+		}
+	}
+	
+	@GetMapping("/api/detail/agenda-detail/{id}")
+	public ResponseEntity<List<AppointmentDetailDetailsDTO>> getAgendaDetail(@PathVariable("id")Integer doctorId){
+		try {
+			List<AppointmentDetailDetailsDTO> agenda = detailsService.getAgendaDetail(doctorId);
+			return ResponseEntity.ok(agenda);
+		} catch (Exception e) {
+			return (ResponseEntity<List<AppointmentDetailDetailsDTO>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
