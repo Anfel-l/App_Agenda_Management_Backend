@@ -13,7 +13,7 @@ import com.bolivar.mucuru.dto.ResponseDTO;
 import com.bolivar.mucuru.service.AppointmentDetailService;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/apppointment")
 public class AppointmentDetailController {
 	
 	private final AppointmentDetailService appointmentDetailService;
@@ -23,7 +23,7 @@ public class AppointmentDetailController {
 		this.appointmentDetailService = appointmentDetailService;
 	}
 	
-	@PostMapping("/api/apppointment-detail/insert/")
+	@PostMapping("/insert/")
 	public ResponseEntity<?> insertAppointmentDetails(@RequestBody AppointmentDetailDTO appointment){
 		try {
 			ResponseDTO result = appointmentDetailService.insertAppointmentDetails(appointment);

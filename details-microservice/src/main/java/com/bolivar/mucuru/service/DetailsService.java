@@ -47,7 +47,6 @@ public class DetailsService {
 		return detailsRepository.getMassiveAgenda();
 	}
 
-
     public Path generateCsvFile(Integer doctorId, String fileName) {
         List<AppointmentDetailDetailsDTO> details = getAgendaDetail(doctorId);
         Path filePath = Paths.get(fileName);
@@ -123,9 +122,5 @@ public class DetailsService {
         }
 
         return filePath;
-    }
-	
-	
-	
-	
+    }	
 }

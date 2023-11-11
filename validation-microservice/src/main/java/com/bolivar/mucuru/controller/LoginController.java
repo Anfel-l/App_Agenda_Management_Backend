@@ -13,7 +13,7 @@ import com.bolivar.mucuru.dto.LoginResponseDTO;
 import com.bolivar.mucuru.service.LoginService;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/login")
 public class LoginController {
 	private final LoginService loginService;
 	
@@ -22,7 +22,7 @@ public class LoginController {
 		this.loginService = loginService;
 	}
 	
-	@PostMapping("/api/login")
+	@PostMapping("/validation/")
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 	    try {
 	        LoginResponseDTO response = loginService.userLogin(loginDTO);

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.bolivar.mucuru.dto.DoctorDTO;
 import com.bolivar.mucuru.dto.DoctorShiftDTO;
@@ -20,7 +22,7 @@ import com.bolivar.mucuru.service.DoctorShiftService;
 
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/doctor")
 public class DoctorShiftController {
 	
 	private final DoctorShiftService doctorShiftService;
@@ -30,7 +32,7 @@ public class DoctorShiftController {
 		this.doctorShiftService = doctorShiftService;
 	}
 	
-	@GetMapping("/api/doctor-shift/id/{id}")
+	@GetMapping("/doctor-shift/id/{id}")
 	public ResponseEntity<DoctorShiftDTO> getDoctorShiftById(@PathVariable("id") Long doctorShiftId){
 		DoctorShiftDTO doctorShift = doctorShiftService.getDoctorShiftById(doctorShiftId);
 		
@@ -41,7 +43,7 @@ public class DoctorShiftController {
 		}
 	}
 	
-	@GetMapping("/api/doctor-shift/")
+	@GetMapping("/doctor-shift/")
 	public ResponseEntity<List<DoctorShiftDTO>> getAllDoctorShifts(){
 		try {
 			List<DoctorShiftDTO> doctorShift = doctorShiftService.getAllDoctorShifts();
@@ -51,7 +53,7 @@ public class DoctorShiftController {
 		}
 	}
 	
-	@PostMapping("/api/doctor-shift/insert/")
+	@PostMapping("/doctor-shift/insert/")
 	public ResponseEntity<String> insertDoctorShift(@RequestBody DoctorShiftDTO doctorShift){
 		try {
 			doctorShiftService.insertDoctorShift(doctorShift);
@@ -62,7 +64,7 @@ public class DoctorShiftController {
 		}
 	}
 	
-	@PutMapping("/api/doctor-shift/update/")
+	@PutMapping("/doctor-shift/update/")
 	public ResponseEntity<String> updateDoctorShift(@RequestBody DoctorShiftDTO doctorShift){
 		try {
 			doctorShiftService.updateDoctorShift(doctorShift);
@@ -71,4 +73,16 @@ public class DoctorShiftController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error updating doctor shift: " + e.getMessage());
 		}
 	}
+	
+	
+	
+    @PostMapping("/doctor-shift/upload/")
+    public ResponseEntity<String> uploadDoctorShifts(@RequestParam("file") MultipartFile file) {
+        try {
+            doctorShiftService.processDoctorShiftsFile(file);
+            return ResponseEntity.ok("File uploaded and processed successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing file: " + e.getMessage());
+        }
+    }
 }

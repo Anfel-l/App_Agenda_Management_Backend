@@ -1,5 +1,6 @@
 package com.bolivar.mucuru.repository;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -21,6 +22,11 @@ import org.springframework.stereotype.Repository;
 import com.bolivar.mucuru.dto.DoctorShiftDTO;
 
 import oracle.jdbc.OracleTypes;
+import oracle.jdbc.driver.OracleConnection;
+import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
+import oracle.sql.STRUCT;
+import oracle.sql.StructDescriptor;
 
 @Repository
 public class DoctorShiftRepository {
@@ -106,6 +112,44 @@ public class DoctorShiftRepository {
 			in.addValue("Ip_end_time", doctorShift.getEndTime());
 			jdbcCall.execute(in);
 	}
+	
+	
+	
+	public void bulkInsertDoctorShifts(List<DoctorShiftDTO> shifts) {
+	    try (Connection conn = jdbcTemplate.getDataSource().getConnection()) {
+	        // Desenvolver la conexión para obtener OracleConnection
+	        OracleConnection oracleConn = conn.unwrap(OracleConnection.class);
+
+	        StructDescriptor structDescriptor = StructDescriptor.createDescriptor("T_DOCTOR_SHIFT_REC", oracleConn);
+	        ArrayDescriptor arrayDescriptor = ArrayDescriptor.createDescriptor("T_DOCTOR_SHIFT_TAB", oracleConn);
+
+	        STRUCT[] structs = new STRUCT[shifts.size()];
+	        for (int i = 0; i < shifts.size(); i++) {
+	            DoctorShiftDTO shift = shifts.get(i);
+	            Object[] shiftObj = new Object[] {
+	                shift.getDoctorId(),
+	                new java.sql.Date(shift.getShiftDate().getTime()),
+	                shift.getStartTime(),
+	                shift.getEndTime()
+	            };
+	            structs[i] = new STRUCT(structDescriptor, oracleConn, shiftObj);
+	        }
+
+	        ARRAY shiftArray = new ARRAY(arrayDescriptor, oracleConn, structs);
+
+	        SqlParameterSource in = new MapSqlParameterSource()
+	            .addValue("Ip_doctor_shifts", shiftArray);
+
+	        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
+	            .withCatalogName("PCK_MASSIVE_DOCTOR_SHIFT")
+	            .withProcedureName("Proc_Insert_Bulk_DOCTOR_SHIFT");
+
+	        jdbcCall.execute(in);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
 	
 	public static final class DoctorShiftRowMapper implements RowMapper<DoctorShiftDTO>{
 

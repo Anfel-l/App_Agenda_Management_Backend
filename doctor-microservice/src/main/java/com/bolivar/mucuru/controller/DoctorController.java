@@ -19,7 +19,7 @@ import com.bolivar.mucuru.dto.DoctorDetailDTO;
 import com.bolivar.mucuru.service.DoctorService;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/doctor")
 public class DoctorController {
 
 	private final DoctorService doctorService;
@@ -30,7 +30,7 @@ public class DoctorController {
 		this.doctorService = doctorService;
 	}
 	
-	@GetMapping("/api/doctor/id/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable("id") Long doctorId){
 		DoctorDTO doctor = doctorService.getDoctorById(doctorId);
 		
@@ -41,7 +41,7 @@ public class DoctorController {
 		}
 	}
 	
-	@GetMapping("/api/doctor/detail/{id}")
+	@GetMapping("/detail/{id}")
 	public ResponseEntity<DoctorDetailDTO> getDoctorDetail(@PathVariable("id") Long doctorId){
 		DoctorDetailDTO doctor = doctorService.getDoctorDetail(doctorId);
 		
@@ -52,7 +52,7 @@ public class DoctorController {
 		}
 	}
 	
-	@GetMapping("/api/doctor/")
+	@GetMapping("/")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctor(){
 		try {
 			List<DoctorDTO> doctor = doctorService.getAllDoctors();
@@ -62,7 +62,7 @@ public class DoctorController {
 		}
 	}
 	
-	@PostMapping("/api/doctor/insert/")
+	@PostMapping("/insert/")
 	public ResponseEntity<String> insertDoctor(@RequestBody DoctorDTO doctor){
 		try {
 			doctorService.insertDoctor(doctor);
@@ -73,7 +73,7 @@ public class DoctorController {
 		}
 	}
 	
-	@PutMapping("/api/doctor/update/")
+	@PutMapping("/update/")
 	public ResponseEntity<String> updateDoctor(@RequestBody DoctorDTO doctor){
 		try {
 			doctorService.updateDoctor(doctor);

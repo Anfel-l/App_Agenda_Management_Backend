@@ -15,7 +15,7 @@ import com.bolivar.mucuru.dto.DoctorDTO;
 import com.bolivar.mucuru.service.DoctorManagementService;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/doctor-manage")
 public class DoctorManagementController {
 	
 	private DoctorManagementService doctorManagementService;
@@ -25,7 +25,7 @@ public class DoctorManagementController {
 		this.doctorManagementService = doctorManagementService;
 	}
 	
-	@GetMapping("/api/doctor-available/{appointment_id}/{id}")
+	@GetMapping("/doctor-available/{appointment_id}/{id}")
 	public ResponseEntity<DoctorDTO> getDoctorsAvailable(@PathVariable("appointment_id") int medicalAppointmentId, @PathVariable("id") int userId){
 		try {
 			DoctorDTO doctor = doctorManagementService.getDoctorAvailable(medicalAppointmentId, userId);

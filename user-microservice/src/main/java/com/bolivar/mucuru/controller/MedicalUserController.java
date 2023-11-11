@@ -11,7 +11,7 @@ import com.bolivar.mucuru.dto.MedicalUserDetailDTO;
 import com.bolivar.mucuru.service.MedicalUserService;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/medical-user")
 public class MedicalUserController {
 
     private final MedicalUserService medicalUserService;
@@ -21,7 +21,7 @@ public class MedicalUserController {
         this.medicalUserService = medicalUserService;
     }
 
-    @GetMapping("/api/medical-user/id/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<MedicalUserDTO> getMedicalUserById(@PathVariable("id") Long userId) {
         MedicalUserDTO medicalUser = medicalUserService.getMedicalUserById(userId);
         if (medicalUser != null) {
@@ -31,7 +31,7 @@ public class MedicalUserController {
         }
     }
     
-    @GetMapping("/api/medical-user/detail/{id}")
+    @GetMapping("/detail/{id}")
     public ResponseEntity<MedicalUserDetailDTO> getMedicalUserDetail(@PathVariable("id") Long userId) {
         MedicalUserDetailDTO medicalUser = medicalUserService.getMedicalUserDetail(userId);
         if (medicalUser != null) {
@@ -41,7 +41,7 @@ public class MedicalUserController {
         }
     }
    
-    @GetMapping("/api/medical-user/document/{document}")
+    @GetMapping("/document/{document}")
     public ResponseEntity<MedicalUserDTO> getMedicalUserByDocument(@PathVariable("document") String document){
     	MedicalUserDTO medicalUser = medicalUserService.getMedicalUserByDocument(document);
     	if (medicalUser != null) {
@@ -51,7 +51,7 @@ public class MedicalUserController {
     	}
     }
     
-    @PostMapping("/api/medical-user/insert/")
+    @PostMapping("/insert/")
     public ResponseEntity<String> insertMedicalUser(@RequestBody MedicalUserDTO user) {
         try {
             medicalUserService.insertMedicalUser(user);
@@ -61,7 +61,7 @@ public class MedicalUserController {
         }
     }
 
-    @PutMapping("/api/medical-user/update/")
+    @PutMapping("/update/")
     public ResponseEntity<String> updateMedicalUser(@RequestBody MedicalUserDTO user) {
         try {
             medicalUserService.updateMedicalUser(user);
@@ -71,7 +71,7 @@ public class MedicalUserController {
         }
     }
     
-    @GetMapping("/api/medical-user/")
+    @GetMapping("/")
     public ResponseEntity<List<MedicalUserDTO>> getAllMedicalUser(){
         try {
         	List<MedicalUserDTO> users = medicalUserService.getAllMedicalUsers();

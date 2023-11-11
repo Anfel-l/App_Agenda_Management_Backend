@@ -22,7 +22,7 @@ import com.bolivar.mucuru.service.DetailsService;
 import jakarta.annotation.Resource;
 
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/api/detail")
 public class DetailsController {
 	
 	private DetailsService detailsService;
@@ -32,7 +32,7 @@ public class DetailsController {
 		this.detailsService = detailsService;
 	}
 	
-	@GetMapping("/api/detail/appointment/{id}")
+	@GetMapping("/appointment/{id}")
 	public ResponseEntity<AppointmentDetailsDTO> getAppointmentDetail(@PathVariable("id") Integer appointmentId){
 		AppointmentDetailsDTO appointment = detailsService.getAppointmentDetail(appointmentId);
 		
@@ -43,7 +43,7 @@ public class DetailsController {
 		}
 	}
 	
-	@GetMapping("/api/detail/appointment-detail/{id}")
+	@GetMapping("/appointment-detail/{id}")
 	public ResponseEntity<AppointmentDetailDetailsDTO> getAppointmentDetailDetails(@PathVariable("id") Integer appointmentId){
 		AppointmentDetailDetailsDTO appointment = detailsService.getAppointmentDetailDetails(appointmentId);
 		
@@ -54,7 +54,7 @@ public class DetailsController {
 		}
 	}
 	
-	@GetMapping("/api/detail/agenda-detail/{id}")
+	@GetMapping("/agenda-detail/{id}")
 	public ResponseEntity<List<AppointmentDetailDetailsDTO>> getAgendaDetail(@PathVariable("id")Integer doctorId){
 		try {
 			List<AppointmentDetailDetailsDTO> agenda = detailsService.getAgendaDetail(doctorId);
@@ -64,7 +64,7 @@ public class DetailsController {
 		}
 	}
 	
-	@GetMapping("/api/detail/agenda-detail/")
+	@GetMapping("/agenda-detail/")
 	public ResponseEntity<List<AppointmentDetailDetailsDTO>> getMassiveAgenda(){
 	    try {
 	        List<AppointmentDetailDetailsDTO> agenda = detailsService.getMassiveAgenda();
@@ -77,7 +77,7 @@ public class DetailsController {
 	
 	// Massive Process
 	// Agenda per doctor
-    @GetMapping("/api/detaill/agenda-detail/generate-csv/{doctorId}")
+    @GetMapping("/agenda-detail/generate-csv/{doctorId}")
     public ResponseEntity<UrlResource> generateCSV(@PathVariable Integer doctorId) throws MalformedURLException {
         String fileName = "agenda_medica_" + doctorId + ".csv";
         Path filePath = detailsService.generateCsvFile(doctorId, fileName);
@@ -90,7 +90,7 @@ public class DetailsController {
     }
     
     // All doctors agenda
-    @GetMapping("/api/detail/agenda-detail/massive/generate-xlsx")
+    @GetMapping("agenda-detail/massive/generate-xlsx")
     public ResponseEntity<UrlResource> generateMassiveXLSX() throws MalformedURLException {
         String fileName = "agenda_medica_masiva.xlsx";
         Path filePath = detailsService.generateMassiveXlsxFile(fileName);
