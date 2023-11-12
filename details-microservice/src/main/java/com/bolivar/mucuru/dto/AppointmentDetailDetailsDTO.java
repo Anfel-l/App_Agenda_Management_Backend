@@ -16,6 +16,6 @@ public class AppointmentDetailDetailsDTO {
 	private Integer medicalAppointmentId;
 	private Long feeValue;
 	private String status;
-	private Timestamp appointmentTime;
+	private String appointmentTime;
 	
 }

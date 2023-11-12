@@ -17,7 +17,7 @@ public class ResponseDTO {
 	private Integer medicalAppointmentId;
 	private Integer appointmentFeeId;
 	private Integer medicalAppointmentStatusId;
-	private Timestamp appointmentTime;
+	private String appointmentTime;
 }
 
 

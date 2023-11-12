@@ -2,7 +2,11 @@ package com.bolivar.mucuru.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -120,6 +124,9 @@ public class DetailsRepository {
 
 		@Override
 		public AppointmentDetailDetailsDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+	        Timestamp timestamp = rs.getTimestamp("appointment_time");
+	        ZonedDateTime zonedDateTime = timestamp.toInstant().atZone(ZoneId.of("America/Bogota")); 
+	        String formattedDate = zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 			return new AppointmentDetailDetailsDTO(
 					rs.getInt("detail_id"),
 					rs.getString("user_name"),
@@ -127,7 +134,7 @@ public class DetailsRepository {
 	                rs.getInt("medical_appointment_id"),
 	                rs.getLong("fee_value"),
 	                rs.getString("status"),
-	                rs.getTimestamp("appointment_time")
+	                formattedDate
 					);
 		}
 		

@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Service;
 
 import com.bolivar.mucuru.dto.AppointmentTypeDTO;
+import com.bolivar.mucuru.dto.DocumentTypeDTO;
+import com.bolivar.mucuru.dto.MedicalCenterDTO;
 import com.bolivar.mucuru.dto.MedicalFieldDTO;
 import com.bolivar.mucuru.dto.SymptomDTO;
 import com.bolivar.mucuru.repository.SoftDetailRepository;
@@ -36,6 +38,14 @@ public class SoftDetailService {
 	}
 	public List<AppointmentTypeDTO> getAllAppointmentType(){
 		return softDetailRepository.getAllAppointmentType();
+	}
+	
+	public List<DocumentTypeDTO> getAllDocumentType(){
+		return softDetailRepository.getAllDocumentType();
+	}
+	
+	public MedicalCenterDTO getMedicalCenter(Long centerId) {
+		return softDetailRepository.getMedicalCenter(centerId);
 	}
 	
 }

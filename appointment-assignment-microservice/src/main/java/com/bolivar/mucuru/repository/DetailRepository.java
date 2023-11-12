@@ -2,6 +2,10 @@ package com.bolivar.mucuru.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +30,7 @@ public class DetailRepository {
 	
 	private JdbcTemplate jdbcTemplate;
 	private SimpleJdbcCall simpleJdbcCall;
+	DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_DATE_TIME;
 	
 	@Autowired
 	public DetailRepository(DataSource dataSource) {
@@ -59,17 +64,21 @@ public class DetailRepository {
 	
 	
 	public static final class ResponseDTORowMapper implements RowMapper<ResponseDTO>{
-		@Override
-		public ResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return new ResponseDTO(
-					rs.getLong("detail_id"),
-					rs.getInt("user_id"),
-					rs.getInt("doctor_id"),
-					rs.getInt("medical_appointment_id"),
-					rs.getInt("appointment_fee_id"),
-					rs.getInt("medical_appointment_status_id"),
-					rs.getTimestamp("appointment_time")
-			);
-		}	
+	    @Override
+	    public ResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+	        Timestamp timestamp = rs.getTimestamp("appointment_time");
+	        ZonedDateTime zonedDateTime = timestamp.toInstant().atZone(ZoneId.of("America/Bogota")); 
+	        String formattedDate = zonedDateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+
+	        return new ResponseDTO(
+	            rs.getLong("detail_id"),
+	            rs.getInt("user_id"),
+	            rs.getInt("doctor_id"),
+	            rs.getInt("medical_appointment_id"),
+	            rs.getInt("appointment_fee_id"),
+	            rs.getInt("medical_appointment_status_id"),
+	            formattedDate
+	        );
+	    }   
 	}
 }

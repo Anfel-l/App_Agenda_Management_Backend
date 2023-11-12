@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DoctorDetailDTO {
-	private String firstName;
-	private String lastName;
-	private String medicalFieldName;
+public class MedicalCenterDTO {
+	
+	private Long medicalCenterId;
 	private String medicalCenterName;
-	private String startTime;
-	private String endTime;
+	private Integer locationId; 
+	
 }
