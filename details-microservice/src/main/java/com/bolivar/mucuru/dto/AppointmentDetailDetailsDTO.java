@@ -17,5 +17,6 @@ public class AppointmentDetailDetailsDTO {
 	private Long feeValue;
 	private String status;
 	private String appointmentTime;
+	private String symptomName;
 	
 }

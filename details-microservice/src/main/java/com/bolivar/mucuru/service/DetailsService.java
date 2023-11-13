@@ -81,7 +81,7 @@ public class DetailsService {
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Map<String, Sheet> sheets = new HashMap<>();
-            String[] header = { "Detail ID", "User Name", "Doctor Name", "Medical Appointment ID", "Fee Value", "Status", "Appointment Time" };
+            String[] header = { "Detail ID", "User Name", "Doctor Name", "Medical Appointment ID", "Fee Value", "Status", "Appointment Time", "Symptom"};
 
             for (AppointmentDetailDetailsDTO detail : details) {
                 String doctorName = detail.getDoctorName();
@@ -106,6 +106,7 @@ public class DetailsService {
                 row.createCell(4).setCellValue(detail.getFeeValue().toString());
                 row.createCell(5).setCellValue(detail.getStatus());
                 row.createCell(6).setCellValue(detail.getAppointmentTime().toString());
+                row.createCell(7).setCellValue(detail.getSymptomName().toString());
             }
             
             sheets.values().forEach(sheet -> {

@@ -134,7 +134,8 @@ public class DetailsRepository {
 	                rs.getInt("medical_appointment_id"),
 	                rs.getLong("fee_value"),
 	                rs.getString("status"),
-	                formattedDate
+	                formattedDate,
+	                rs.getString("symptom_name")
 					);
 		}
 		
