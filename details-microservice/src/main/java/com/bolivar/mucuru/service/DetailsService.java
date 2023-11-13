@@ -5,11 +5,14 @@ import java.io.FileWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.bolivar.mucuru.dto.AppointmentDetailDetailsDTO;
@@ -77,7 +80,9 @@ public class DetailsService {
     
     public Path generateMassiveXlsxFile(String fileName) {
         List<AppointmentDetailDetailsDTO> details = getMassiveAgenda();
-        Path filePath = Paths.get(fileName);
+        String userHomeFolder = System.getProperty("user.home");
+        String relativePath = userHomeFolder + "\\Desktop\\Files\\" + fileName;
+        Path filePath = Paths.get(relativePath);
 
         try (Workbook workbook = new XSSFWorkbook()) {
             Map<String, Sheet> sheets = new HashMap<>();
@@ -123,5 +128,15 @@ public class DetailsService {
         }
 
         return filePath;
-    }	
+    }
+    
+    @Scheduled(cron = "0 0 0 * * ?") 
+    public void generateDailyReport() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        String fileName = "reporte_diario_" + dateFormat.format(new Date()) + ".xlsx";
+        generateMassiveXlsxFile(fileName);
+    }
+    
+    
+    
 }
